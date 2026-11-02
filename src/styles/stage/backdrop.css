@@ -1,0 +1,222 @@
+.stage-backdrop {
+  position: fixed;
+  z-index: -2;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  background: var(--ground);
+}
+.stage-grid {
+  position: absolute;
+  inset: calc(var(--grid) * -1);
+  background-image:
+    linear-gradient(
+      color-mix(in srgb, var(--accent) 9%, transparent) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--accent) 9%, transparent) 1px,
+      transparent 1px
+    );
+  background-size: var(--grid) var(--grid);
+  mask-image: radial-gradient(
+    ellipse 80% 70% at 50% 45%,
+    #000 30%,
+    transparent 100%
+  );
+  translate: calc(var(--px, 0) * -30px) calc(var(--py, 0) * -30px);
+  transition: translate 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+  animation: grid-drift 14s linear infinite;
+}
+/* Pointer spotlight glow. */
+.stage-backdrop::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  width: 280px;
+  height: 280px;
+  background: color-mix(in srgb, var(--accent-2) 5%, transparent);
+  clip-path: polygon(
+    30% 0%,
+    70% 0%,
+    100% 30%,
+    100% 70%,
+    70% 100%,
+    30% 100%,
+    0% 70%,
+    0% 30%
+  );
+  transform: translate(
+    calc(((var(--px, 0) + 0.5) * 100dvw) - 100% / 2),
+    calc(((var(--py, 0) + 0.5) * 100dvh) - 100% / 2)
+  );
+}
+
+.stage-art {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  translate: calc(var(--px, 0) * 18px) calc(var(--py, 0) * 18px);
+  transition: translate 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.spotlight-beams path {
+  fill: var(--accent);
+  opacity: 0.06;
+  animation: beam-pulse 3s ease-in-out infinite;
+  animation-delay: 0.5s;
+}
+.spotlight-beams path + path {
+  fill: var(--accent-2);
+  animation-delay: 5s;
+}
+@keyframes beam-pulse {
+  50% {
+    opacity: 0.18;
+  }
+}
+.stage-floor,
+.stage-marks {
+  stroke: var(--accent);
+  stroke-width: 1.5;
+  opacity: 0.35;
+}
+.stage-star {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 2;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: square-float 10s ease-in-out infinite;
+}
+.star-two,
+.star-five,
+.star-eight {
+  stroke: var(--accent-2);
+}
+.star-three,
+.star-six {
+  stroke: var(--accent-3);
+}
+.star-two {
+  animation-delay: -3s;
+  animation-duration: 13s;
+}
+.star-three {
+  animation-delay: -6s;
+  animation-duration: 8s;
+}
+.star-four {
+  animation-delay: -2s;
+  animation-duration: 11s;
+}
+.star-five {
+  animation: spin-plus 9s linear infinite;
+}
+.star-six {
+  animation: spin-plus 12s linear infinite reverse;
+}
+.star-seven {
+  animation-delay: -5s;
+  animation-duration: 15s;
+}
+.star-eight {
+  animation-delay: -1s;
+  animation-duration: 7s;
+}
+@keyframes spin-plus {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes grid-drift {
+  to {
+    transform: translate(var(--grid), var(--grid));
+  }
+}
+@keyframes scan {
+  from {
+    transform: translateY(-120px);
+  }
+  to {
+    transform: translateY(100vh);
+  }
+}
+@keyframes square-float {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0);
+    opacity: 0.4;
+  }
+  50% {
+    transform: translateY(-18px) rotate(90deg);
+    opacity: 0.9;
+  }
+}
+@keyframes orbit-drift {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.stage-lamp {
+  position: absolute;
+  width: 44px;
+  top: 84px;
+  left: 1.2%;
+}
+.lamp-right {
+  left: auto;
+  right: 1.2%;
+}
+.lamp-head {
+  transform-origin: 40px 28px;
+  transform: rotate(calc(-25deg + var(--px, 0) * 40deg));
+  transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.lamp-right .lamp-head {
+  transform: rotate(calc(25deg + var(--px, 0) * 40deg));
+}
+.lamp-right .lamp-bulb {
+  stroke: var(--accent-2);
+}
+.spotlight-beams,
+.lamp-bulb {
+  opacity: 0.1;
+  transition: opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.stage-ready .spotlight-beams,
+.stage-ready .lamp-bulb {
+  opacity: 1;
+}
+.is-changing-scene .spotlight-beams,
+.is-changing-scene .lamp-bulb {
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.stage-blackout {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  pointer-events: none;
+  background: var(--ground);
+  opacity: 0;
+}
+.stage-wipe {
+  position: fixed;
+  inset: 0;
+  z-index: 31;
+  display: grid;
+  grid-template-rows: repeat(3, 1fr);
+  pointer-events: none;
+}
+.stage-wipe i {
+  transform: scaleX(0);
+  background: var(--accent);
+}
+.stage-wipe i:nth-child(2) {
+  background: var(--accent-2);
+}
+.stage-wipe i:nth-child(3) {
+  background: var(--accent-3);
+}

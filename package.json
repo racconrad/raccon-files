@@ -1,0 +1,24 @@
+{
+  "name": "raccon-files",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "tsc --noEmit",
+    "format": "prettier --write ."
+  },
+  "dependencies": {
+    "@tailwindcss/vite": "4.3.3",
+    "astro": "5.18.2",
+    "gsap": "^3.13.0",
+    "tailwindcss": "4.3.3"
+  },
+  "devDependencies": {
+    "prettier": "3.9.10",
+    "prettier-plugin-astro": "^1.1.1",
+    "typescript": "5.9.3"
+  }
+}

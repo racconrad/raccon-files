@@ -1,0 +1,28 @@
+---
+import DesktopDialog from '../DesktopDialog.astro';
+import TechnologyList from '../ui/TechnologyList.astro';
+import type { Locale, Skill } from '../../data/portfolio';
+import { ui } from '../../data/ui';
+
+interface Props {
+  skill: Skill;
+  locale: Locale;
+}
+
+const { skill, locale } = Astro.props;
+const t = ui(locale);
+---
+
+<DesktopDialog
+  id={`skill-${skill.id}`}
+  title={skill.title[locale]}
+  closeLabel={t.close}
+  icon={skill.icon}
+>
+  <h2 class="mb-6 font-display text-3xl text-accent">{skill.title[locale]}</h2>
+  <p class="text-sm leading-loose text-muted">{skill.description[locale]}</p>
+  <TechnologyList items={skill.tools} locale={locale} />
+  <p class="mt-6 border-t border-line pt-5 text-xs text-muted">
+    {skill.evidence[locale]}
+  </p>
+</DesktopDialog>

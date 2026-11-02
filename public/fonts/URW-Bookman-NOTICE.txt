@@ -1,0 +1,19 @@
+URW Bookman Demi
+(URW)++, Copyright 2014 by (URW)++ Design & Development.
+
+This unmodified font program comes from the URW base35 font collection.
+License: GNU Affero General Public License, version 3.
+The full license is provided in URW-Bookman-AGPL-3.0.txt.
+
+Upstream license exemption:
+As a special exception, permission is granted to include these font
+programs in a Postscript or PDF file that consists of a document that
+contains text to be displayed or printed using this font, regardless
+of the conditions or license applying to the document itself.
+
+Upstream project and corresponding font sources:
+https://github.com/ArtifexSoftware/urw-base35-fonts
+https://github.com/ArtifexSoftware/urw-base35-fonts/blob/master/fonts/URWBookman-Demi.otf
+https://github.com/ArtifexSoftware/urw-base35-fonts/blob/master/LICENSE
+
+The font was copied without modification to display.otf.

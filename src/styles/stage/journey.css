@@ -1,0 +1,64 @@
+.timeline {
+  position: relative;
+  display: grid;
+  gap: 14px;
+}
+.timeline::before {
+  content: '';
+  position: absolute;
+  inset: 20px auto 20px calc(20px + 5.5rem);
+  border-left: var(--border) dashed var(--line);
+}
+.timeline li {
+  display: grid;
+  grid-template-columns: 5.5rem 1fr;
+  gap: 18px;
+  align-items: baseline;
+}
+.timeline time {
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.timeline p {
+  position: relative;
+  display: grid;
+  gap: 2px;
+}
+.timeline p::before {
+  content: '';
+  position: absolute;
+  top: 0.45em;
+  left: calc(-18px - 4px);
+  width: 9px;
+  height: 9px;
+  background: var(--accent-2);
+}
+.timeline strong {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  color: var(--ink);
+}
+.timeline span {
+  color: var(--muted);
+}
+.certificate {
+  border: 1.5px solid var(--line);
+  background: var(--deep);
+  transition: border-color 0.2s;
+}
+.certificate:hover {
+  border-color: var(--accent);
+}
+@media (max-width: 479px) {
+  .timeline::before {
+    display: none;
+  }
+  .timeline li {
+    grid-template-columns: 1fr;
+    gap: 2px;
+  }
+  .timeline p::before {
+    display: none;
+  }
+}

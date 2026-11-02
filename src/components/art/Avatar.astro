@@ -1,0 +1,26 @@
+---
+// Initial pose is displayed by default; button cycles through poses on click (see scripts/raccoon.ts).
+interface Props {
+  poses: string[];
+  class?: string;
+  label?: string;
+}
+const { poses, class: className, label } = Astro.props;
+const Tag = poses.length > 1 ? 'button' : 'div';
+---
+
+<Tag
+  class:list={['avatar-slot', className]}
+  data-raccoon={poses.join(' ')}
+  {...(Tag === 'button'
+    ? { type: 'button', 'aria-label': label }
+    : { 'aria-hidden': 'true' })}
+>
+  <img
+    src={`${import.meta.env.BASE_URL}images/raccoon/${poses[0]}.svg`}
+    alt=""
+    width="230"
+    height="240"
+    draggable="false"
+  />
+</Tag>

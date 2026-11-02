@@ -1,0 +1,59 @@
+---
+import Avatar from './art/Avatar.astro';
+import Icon from './Icon.astro';
+import { profile, type Locale } from '../data/portfolio';
+import { ui } from '../data/ui';
+
+interface Props {
+  locale: Locale;
+}
+const t = ui(Astro.props.locale);
+const tiles = 8 * 5; // Must match .intro-tiles grid and GSAP grid config in intro.ts
+---
+
+<div
+  class="intro fixed inset-0 z-[80] grid place-items-center overflow-hidden"
+  data-intro
+  hidden
+  aria-hidden="true"
+>
+  <div class="intro-tiles">
+    {Array.from({ length: tiles }, () => (
+      <i class="intro-tile"></i>
+    ))}
+  </div>
+  <div class="intro-bars">
+    <i></i>
+    <i></i>
+    <i></i>
+  </div>
+
+  <div class="intro-content relative z-10 flex w-[min(90vw,360px)] flex-col items-center p-6 text-center">
+    <Avatar class="intro-avatar" poses={['hiding']} />
+    <h1
+      class="mt-6 font-display text-3xl tracking-tight sm:text-4xl"
+      aria-label={profile.name}
+    >
+      {[...profile.name].map((char) => (
+        <span class="intro-char" aria-hidden="true">
+          {char}
+        </span>
+      ))}
+    </h1>
+    <p class="intro-line mt-2 font-mono text-xs tracking-[.2em] uppercase text-muted">
+      {t.introLine}
+    </p>
+    <div class="intro-progress mt-5" aria-hidden="true">
+      <i></i>
+    </div>
+  </div>
+
+  <button
+    type="button"
+    data-skip-intro
+    class="absolute right-5 bottom-6 flex items-center gap-2.5 text-xs md:right-8"
+  >
+    {t.skipIntro}
+    <Icon name="arrow" size={14} />
+  </button>
+</div>

@@ -1,0 +1,18 @@
+.interest {
+  border-bottom: 1.5px solid var(--line);
+}
+.interest[open] {
+  border-bottom-color: var(--accent);
+}
+.interest summary {
+  transition:
+    padding-left 0.2s,
+    color 0.2s;
+}
+.interest summary:hover {
+  padding-left: 8px;
+  color: var(--accent);
+}
+.interest:nth-child(odd) svg {
+  color: var(--accent-2);
+}

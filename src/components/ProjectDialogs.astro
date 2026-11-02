@@ -1,0 +1,14 @@
+---
+import ProjectDialog from './dialogs/ProjectDialog.astro';
+import { projects, type Locale } from '../data/portfolio';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+---
+
+{projects.map((project) => (
+  <ProjectDialog project={project} locale={locale} />
+))}

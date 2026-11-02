@@ -1,0 +1,88 @@
+---
+import Icon from './Icon.astro';
+import { profile, type Locale } from '../data/portfolio';
+import { scenes } from '../data/navigation';
+import { ui } from '../data/ui';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const t = ui(locale);
+---
+
+<header class="site-header relative z-10 mx-auto grid w-[92%] shrink-0 grid-cols-[1fr_auto] items-center gap-x-2 pt-2 md:w-[94%] md:grid-cols-[150px_1fr_auto] md:gap-x-4 md:pt-0 lg:grid-cols-[200px_1fr_150px]">
+  <a
+    href="#home"
+    class="flex min-w-0 items-center gap-2 no-underline"
+    aria-label={profile.name}
+  >
+    <span
+      class="brand-mark grid size-9 shrink-0 place-items-center font-display text-lg md:size-10"
+      aria-hidden="true"
+    >
+      {profile.name.charAt(0).toUpperCase()}
+    </span>
+    <span class="min-w-0 font-display text-base tracking-tight sm:text-lg">
+      <span class="block whitespace-nowrap leading-none">{profile.name}</span>
+      <small class="mt-1 block max-w-[125px] truncate font-sans text-[9px] tracking-wide text-muted sm:max-w-none sm:text-[10px]">
+        {t.welcome}
+      </small>
+    </span>
+  </a>
+
+  <nav
+    class="primary-navigation col-span-2 row-start-2 flex h-14 items-stretch justify-between gap-1 md:col-span-1 md:row-start-auto md:h-full md:justify-center md:gap-1.5 lg:gap-5 xl:gap-8"
+    aria-label={locale === 'es' ? 'Navegación principal' : 'Main navigation'}
+  >
+    {scenes.map((scene) => (
+      <a
+        href={`#${scene}`}
+        data-scene-link={scene}
+        aria-current={scene === 'home' ? 'page' : undefined}
+        class="relative flex items-center whitespace-nowrap text-[11px] text-muted no-underline hover:text-accent sm:text-xs lg:text-sm"
+      >
+        {t.nav[scene]}
+      </a>
+    ))}
+  </nav>
+
+  <div class="col-start-2 row-start-1 flex items-center justify-end gap-2 md:col-start-3 md:row-start-auto md:gap-4">
+    <a
+      href={
+        locale === 'es'
+          ? `${import.meta.env.BASE_URL}en/`
+          : `${import.meta.env.BASE_URL}`
+      }
+      data-language-switch
+      aria-label={locale === 'es' ? 'Switch to English' : 'Cambiar a español'}
+      class="flex gap-2 text-xs text-muted no-underline"
+    >
+      <span
+        class:list={{
+          'text-ink underline underline-offset-4': locale === 'es',
+        }}
+      >
+        ES
+      </span>
+      <span aria-hidden="true">/</span>
+      <span
+        class:list={{
+          'text-ink underline underline-offset-4': locale === 'en',
+        }}
+      >
+        EN
+      </span>
+    </a>
+    <button
+      type="button"
+      data-theme-toggle
+      aria-label={t.theme}
+      aria-pressed="false"
+      class="flex items-center gap-2 border-[length:var(--border)] border-accent px-2 py-1.5 text-accent"
+    >
+      <Icon name="sun" size={16} />
+      <Icon name="moon" size={16} />
+    </button>
+  </div>
+</header>

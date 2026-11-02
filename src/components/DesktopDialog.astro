@@ -1,0 +1,35 @@
+---
+import Icon from './Icon.astro';
+import WindowHeader from './ui/WindowHeader.astro';
+
+interface Props {
+  id: string;
+  title: string;
+  closeLabel: string;
+  icon?: string;
+}
+
+const { id, title, closeLabel, icon = 'spark' } = Astro.props;
+---
+
+<dialog
+  id={id}
+  aria-labelledby={`${id}-title`}
+  class="desktop-dialog retro-window fixed inset-0 m-auto max-h-[85svh] w-[650px] max-w-[calc(100%-2rem)] overflow-auto p-0 text-ink"
+>
+  <div class="sticky top-0 z-10 bg-panel">
+    <WindowHeader title={title} icon={icon} id={`${id}-title`}>
+      <button
+        type="button"
+        data-close
+        aria-label={closeLabel}
+        class="window-close grid size-6 place-items-center"
+      >
+        <Icon name="close" />
+      </button>
+    </WindowHeader>
+  </div>
+  <div class="p-6 md:p-8">
+    <slot />
+  </div>
+</dialog>

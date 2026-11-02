@@ -1,0 +1,39 @@
+---
+import Icon from '../Icon.astro';
+
+interface Props {
+  href?: string;
+  open?: string;
+  icon?: string;
+  newTab?: boolean;
+  class?: string;
+  pose?: string;
+}
+
+const {
+  href,
+  open,
+  icon,
+  newTab = false,
+  class: className,
+  pose,
+} = Astro.props;
+const Tag = href ? 'a' : 'button';
+---
+
+<Tag
+  href={href}
+  type={href ? undefined : 'button'}
+  data-open={open}
+  data-pose={pose}
+  target={newTab ? '_blank' : undefined}
+  rel={newTab ? 'noopener noreferrer' : undefined}
+  class:list={[
+    'primary-action inline-flex items-center justify-center gap-3 border-[length:var(--border)] border-accent bg-accent px-5 py-3 font-mono text-sm font-semibold uppercase tracking-wider text-accent-ink no-underline transition',
+    className,
+  ]}
+>
+  {icon && <Icon name={icon} />}
+  <slot />
+  <Icon name="arrow" />
+</Tag>

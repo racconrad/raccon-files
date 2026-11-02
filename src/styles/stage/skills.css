@@ -1,0 +1,60 @@
+.puzzle-piece {
+  background: var(--panel);
+  border: var(--border) solid var(--line);
+  transition:
+    transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.2s,
+    box-shadow 0.2s;
+}
+.puzzle-piece:hover {
+  border-color: var(--accent);
+  transform: translate(-4px, -4px);
+  box-shadow:
+    5px 5px 0 var(--accent-2),
+    10px 10px 0 color-mix(in srgb, var(--accent-3) 40%, transparent);
+}
+.puzzle-piece:hover svg {
+  animation: icon-pop 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+@keyframes icon-pop {
+  40% {
+    transform: scale(1.25) rotate(-8deg);
+  }
+}
+.puzzle-piece.is-discovered {
+  border-color: var(--accent);
+}
+.puzzle-piece.is-discovered::after {
+  content: 'OK';
+  position: absolute;
+  bottom: 10px;
+  right: 12px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--accent-ink);
+  background: var(--accent);
+  padding: 1px 5px;
+}
+.puzzle-connector {
+  position: absolute;
+  z-index: 2;
+  top: 30px;
+  right: -9px;
+  width: 14px;
+  height: 14px;
+  background: var(--ground);
+  border: var(--border) solid var(--line);
+}
+.puzzle-piece:nth-child(2n) .puzzle-connector {
+  display: none;
+}
+.puzzle-piece:is(:hover, .is-discovered) .puzzle-connector {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+.ai-note {
+  border: var(--border) solid var(--accent-2);
+}
+.ai-note h3 {
+  color: var(--accent-2);
+}

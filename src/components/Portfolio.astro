@@ -1,0 +1,32 @@
+---
+import SiteLayout from '../layouts/SiteLayout.astro';
+import HomeSection from './sections/HomeSection.astro';
+import ProjectsSection from './sections/ProjectsSection.astro';
+import SkillsSection from './sections/SkillsSection.astro';
+import AboutSection from './sections/AboutSection.astro';
+import JourneySection from './sections/JourneySection.astro';
+import ContactSection from './sections/ContactSection.astro';
+import ProjectDialogs from './ProjectDialogs.astro';
+import SkillDialogs from './SkillDialogs.astro';
+import type { Locale } from '../data/portfolio';
+import { scenes } from '../data/navigation';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const visible = (scene: (typeof scenes)[number]) => scenes.includes(scene);
+---
+
+<SiteLayout locale={locale}>
+  <HomeSection locale={locale} />
+  {visible('projects') && <ProjectsSection locale={locale} />}
+  {visible('skills') && <SkillsSection locale={locale} />}
+  {visible('about') && <AboutSection locale={locale} />}
+  {visible('journey') && <JourneySection locale={locale} />}
+  {visible('contact') && <ContactSection locale={locale} />}
+  <Fragment slot="dialogs">
+    {visible('projects') && <ProjectDialogs locale={locale} />}
+    {visible('skills') && <SkillDialogs locale={locale} />}
+  </Fragment>
+</SiteLayout>

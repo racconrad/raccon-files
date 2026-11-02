@@ -1,0 +1,46 @@
+---
+import PlainLayout from '../layouts/PlainLayout.astro';
+import Action from '../components/ui/Action.astro';
+import { profile } from '../data/portfolio';
+import { ui } from '../data/ui';
+
+const es = ui('es');
+const en = ui('en');
+---
+
+<PlainLayout
+  class="grid min-h-svh place-items-center px-6 py-10"
+  locale="es"
+  title={`404 — ${profile.name}`}
+>
+  <main class="grid w-full max-w-4xl items-center gap-10 md:grid-cols-[1fr_1.3fr]">
+    <img
+      src={`${import.meta.env.BASE_URL}images/raccoon/doubt.svg`}
+      alt=""
+      width="230"
+      height="240"
+      class="mx-auto w-40 md:w-full md:max-w-64"
+    />
+    <div>
+      <p class="kicker">error 404</p>
+      <h1 class="mt-3 font-display text-[clamp(2.5rem,5vw,4.25rem)] leading-[1.05] tracking-tight">
+        {es.notFoundTitle}
+      </h1>
+      <p class="mt-5 max-w-[48ch] leading-relaxed text-muted">
+        {es.notFoundCopy}
+      </p>
+      <Action href={`${import.meta.env.BASE_URL}`} class="mt-7">
+        {es.backHome}
+      </Action>
+      <p lang="en" class="mt-8 border-t border-line pt-4 text-sm text-muted">
+        {en.notFoundTitle}
+        <a
+          href={`${import.meta.env.BASE_URL}en/`}
+          class="ml-1 text-accent underline underline-offset-4"
+        >
+          {en.backHome}
+        </a>
+      </p>
+    </div>
+  </main>
+</PlainLayout>

@@ -1,0 +1,31 @@
+---
+import Icon from '../Icon.astro';
+import WindowHeader from '../ui/WindowHeader.astro';
+import StackLevels from '../ui/StackLevels.astro';
+import type { Locale } from '../../data/portfolio';
+import { ui } from '../../data/ui';
+import { scenes } from '../../data/navigation';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = ui(locale);
+---
+
+<div class="panel-reveal panel-right">
+  <article class="hanging-panel stack-panel">
+    <WindowHeader title="stack.cfg" icon="layout" />
+    <div class="panel-body">
+      <h2 class="font-display">{t.stackTitle}</h2>
+      <StackLevels locale={locale} limit={5} />
+      {scenes.includes('skills') && (
+        <a href="#skills" class="panel-link">
+          {t.exploreSkills}
+          <Icon name="arrow" size={17} />
+        </a>
+      )}
+    </div>
+  </article>
+</div>

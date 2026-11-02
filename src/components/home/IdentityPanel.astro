@@ -1,0 +1,43 @@
+---
+import Icon from '../Icon.astro';
+import WindowHeader from '../ui/WindowHeader.astro';
+import { profile, type Locale } from '../../data/portfolio';
+import { ui } from '../../data/ui';
+import { scenes } from '../../data/navigation';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = ui(locale);
+const facts = [
+  [t.factRole, t.junior],
+  [t.factFocus, t.focusValue],
+  [t.factLearning, t.learningValue],
+  [t.factSeeking, t.seekingValue],
+];
+---
+
+<div class="panel-reveal panel-left">
+  <article class="hanging-panel identity-panel">
+    <WindowHeader title="whoami.txt" icon="terminal" />
+    <div class="panel-body">
+      <p>{profile.description[locale]}</p>
+      <dl class="fact-list" data-stagger>
+        {facts.map(([label, value]) => (
+          <div>
+            <dt>{label}</dt>
+            <dd>{value}</dd>
+          </div>
+        ))}
+      </dl>
+      {scenes.includes('about') && (
+        <a href="#about" class="panel-link">
+          {t.nav.about}
+          <Icon name="arrow" size={17} />
+        </a>
+      )}
+    </div>
+  </article>
+</div>

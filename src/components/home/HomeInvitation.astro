@@ -1,0 +1,54 @@
+---
+import Icon from '../Icon.astro';
+import Action from '../ui/Action.astro';
+import type { Locale } from '../../data/portfolio';
+import { ui } from '../../data/ui';
+import { site } from '../../site.config';
+import { scenes } from '../../data/navigation';
+import { show } from '../../data/portfolio';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = ui(locale);
+---
+
+<div class="theater-invitation">
+  {scenes.includes('projects') && (
+    <Action href="#projects" pose="skateboard">
+      {t.enterProjects}
+    </Action>
+  )}
+  <div class="invitation-links" data-stagger>
+    <a href={site.github} target="_blank" rel="noopener noreferrer">
+      <Icon name="github" size={16} />
+      GitHub
+    </a>
+    {site.email && (
+      <a href={`mailto:${site.email}`}>
+        <Icon name="copy" size={16} />
+        {t.email}
+      </a>
+    )}
+    {show.resume && (
+      <a
+        href={
+          locale === 'es'
+            ? `${import.meta.env.BASE_URL}cv/`
+            : `${import.meta.env.BASE_URL}en/cv/`
+        }
+      >
+        <Icon name="book" size={16} />
+        {t.resumeLink}
+      </a>
+    )}
+    {site.cv && (
+      <a href={site.cv} download>
+        <Icon name="book" size={16} />
+        {t.cv}
+      </a>
+    )}
+  </div>
+</div>

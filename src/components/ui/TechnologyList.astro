@@ -1,0 +1,19 @@
+---
+import type { Locale } from '../../data/portfolio';
+import { toolLabel } from '../../data/ui';
+
+interface Props {
+  items: readonly string[];
+  locale: Locale;
+}
+
+const { items, locale } = Astro.props;
+---
+
+<ul data-stagger class="my-5 flex list-none flex-wrap gap-2 p-0">
+  {items.map((item) => (
+    <li class="border border-accent px-2 py-1 font-mono text-[11px] text-accent">
+      {toolLabel(item, locale)}
+    </li>
+  ))}
+</ul>

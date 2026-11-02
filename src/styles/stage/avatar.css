@@ -1,0 +1,266 @@
+.avatar-slot {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  /* Tilt slightly toward pointer (CSS variables from ambient.ts). */
+  rotate: calc(var(--px, 0) * 8deg);
+  translate: calc(var(--px, 0) * 10px) calc(var(--py, 0) * 6px);
+  transition:
+    rotate 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+    translate 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+button.avatar-slot {
+  cursor: pointer;
+}
+button.avatar-slot:focus-visible {
+  outline: var(--border) dashed var(--accent);
+  outline-offset: 6px;
+}
+.avatar-slot img {
+  display: block;
+  width: 100%;
+  height: auto;
+  user-select: none;
+  transform-origin: 50% 100%;
+  filter: drop-shadow(4px 4px 0 var(--accent-2));
+  animation:
+    raccoon-hop 700ms cubic-bezier(0.34, 1.56, 0.64, 1) both,
+    raccoon-breathe 3.6s ease-in-out 700ms infinite;
+}
+.avatar-slot.is-leaving img {
+  opacity: 0.55;
+  transform: scale(0.96, 0.97) translateY(4px);
+  transition:
+    opacity 180ms ease-out,
+    transform 180ms ease-out;
+  animation: none;
+}
+.avatar-slot.is-switching img {
+  animation: raccoon-pop 420ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.avatar-slot.is-switching[data-mood='shake'] img {
+  animation: raccoon-shake 520ms ease-out;
+}
+.avatar-slot.is-switching[data-mood='walk'] img {
+  animation: raccoon-walk 400ms ease-in-out 3;
+}
+.avatar-slot.is-asleep img {
+  animation: raccoon-breathe 5s ease-in-out infinite;
+  filter: drop-shadow(4px 4px 0 var(--accent-2)) saturate(0.6) brightness(0.85);
+}
+button.avatar-slot:hover img {
+  animation-duration: 700ms, 1.4s;
+}
+@keyframes raccoon-hop {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.85, 1.1);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(-8px) scale(1.04, 0.96);
+  }
+  to {
+    transform: none;
+  }
+}
+@keyframes raccoon-breathe {
+  0%,
+  100% {
+    transform: none;
+  }
+  50% {
+    transform: translateY(-4px) scale(1.015, 0.985);
+  }
+}
+@keyframes raccoon-pop {
+  0% {
+    transform: scale(1.12, 0.82);
+  }
+  50% {
+    transform: translateY(-14px) scale(0.94, 1.08) rotate(-3deg);
+  }
+  100% {
+    transform: none;
+  }
+}
+@keyframes raccoon-shake {
+  0%,
+  100% {
+    transform: none;
+  }
+  15% {
+    transform: translateY(-12px) scale(1.06, 0.94);
+  }
+  30% {
+    transform: translateY(-6px) rotate(-7deg);
+  }
+  45% {
+    transform: rotate(6deg);
+  }
+  60% {
+    transform: rotate(-4deg);
+  }
+  80% {
+    transform: rotate(2deg);
+  }
+}
+/* Gentle bobbing step animation while moving between scenes. */
+@keyframes raccoon-walk {
+  0%,
+  100% {
+    transform: none;
+  }
+  25% {
+    transform: translateY(-7px) rotate(-3deg);
+  }
+  75% {
+    transform: translateY(-7px) rotate(3deg);
+  }
+}
+[data-motion='paused'] .avatar-slot {
+  rotate: none;
+  translate: none;
+}
+[data-motion='paused'] .avatar-slot img {
+  animation: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .avatar-slot img {
+    animation: none !important;
+  }
+}
+.companion {
+  --size: clamp(84px, 9vw, 136px);
+  --edge: clamp(12px, 3vw, 44px);
+  position: fixed;
+  z-index: 30;
+  /* Defaults left; overridden per scene via data-side (raccoon.ts). */
+  left: var(--edge);
+  bottom: 46px;
+  width: var(--size);
+  visibility: hidden;
+  opacity: 0;
+  transform: translateY(40%) scale(0.8);
+  transition:
+    left 1.2s cubic-bezier(0.65, 0, 0.35, 1),
+    bottom 1.2s cubic-bezier(0.65, 0, 0.35, 1),
+    scale 0.35s ease,
+    opacity 0.4s,
+    transform 0.6s cubic-bezier(0.34, 1.4, 0.64, 1),
+    visibility 0s 0.6s,
+    rotate 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+    translate 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+/* Offset right edge to leave clearance for scene dots. */
+.companion[data-side='right'] {
+  left: calc(100% - var(--size) - var(--edge) - 28px);
+}
+/* Mirror when walking right (asset faces left by default). */
+.companion[data-mood='walk'][data-facing='right'] {
+  scale: -1 1;
+}
+/* Extra bottom padding to avoid overlapping scene footer. */
+@media (min-width: 768px) {
+  :is(#projects, #skills, #about, #journey) {
+    padding-bottom: clamp(90px, 9vw, 140px);
+  }
+}
+@media (max-width: 767px) {
+  .companion {
+    display: none;
+  }
+}
+/* Companion displays on intermediate scenes; home and contact have local avatars. */
+body:is(
+    [data-active-scene='projects'],
+    [data-active-scene='skills'],
+    [data-active-scene='about']
+  )
+  .companion {
+  visibility: visible;
+  opacity: 1;
+  transform: none;
+  transition-delay: 0s;
+}
+.companion:hover img {
+  animation: raccoon-shake 520ms ease-out;
+}
+/* Floating hearts on click. */
+.raccoon-heart {
+  position: absolute;
+  left: 50%;
+  top: 20%;
+  font-style: normal;
+  font-size: 22px;
+  color: var(--accent);
+  pointer-events: none;
+  animation: heart-float 900ms ease-out both;
+}
+@keyframes heart-float {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 10px) scale(0.4);
+  }
+  30% {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+    transform: translate(calc(-50% + var(--drift)), -70px) scale(1.2);
+  }
+}
+.scene-dots {
+  position: fixed;
+  z-index: 30;
+  right: clamp(10px, 1.6vw, 26px);
+  top: 50%;
+  translate: 0 -50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+.scene-dots a {
+  width: 10px;
+  height: 10px;
+  border: var(--border) solid var(--muted);
+  transition:
+    background 0.3s,
+    border-color 0.3s,
+    height 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.scene-dots a:hover {
+  border-color: var(--accent);
+}
+.scene-dots a[aria-current='page'] {
+  height: 28px;
+  background: var(--accent);
+  border-color: var(--accent);
+}
+.scene-dots button {
+  margin-top: 6px;
+  color: var(--accent);
+  rotate: 90deg;
+  animation: next-nudge 1.8s ease-in-out infinite;
+}
+.scene-dots button:hover,
+.scene-dots button:focus-visible {
+  animation: none;
+}
+body[data-active-scene='contact'] .scene-dots button {
+  visibility: hidden;
+}
+@keyframes next-nudge {
+  50% {
+    translate: 5px 0;
+  }
+}
+@media (max-width: 767px) {
+  .scene-dots {
+    display: none;
+  }
+}

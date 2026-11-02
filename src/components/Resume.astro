@@ -1,0 +1,255 @@
+---
+import Icon from './Icon.astro';
+import {
+  profile,
+  projects,
+  moreProjects,
+  stack,
+  timeline,
+  certificates,
+  show,
+  type Locale,
+} from '../data/portfolio';
+import { ui, toolLabel } from '../data/ui';
+import { site } from '../site.config';
+import PlainLayout from '../layouts/PlainLayout.astro';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const t = ui(locale);
+const home =
+  locale === 'es'
+    ? `${import.meta.env.BASE_URL}`
+    : `${import.meta.env.BASE_URL}en/`;
+const details = [
+  [t.factStudies, t.studiesValue],
+  [t.factLocation, t.locationValue],
+  [t.factEnglish, t.englishValue],
+  [t.factSeeking, t.seekingValue],
+];
+---
+
+<PlainLayout
+  class="min-h-svh px-4 py-8"
+  locale={locale}
+  title={`${profile.name} — CV`}
+  alternate={
+    locale === 'es'
+      ? `${import.meta.env.BASE_URL}en/cv/`
+      : `${import.meta.env.BASE_URL}cv/`
+  }
+>
+  <nav class="resume-actions mx-auto mb-6 flex max-w-4xl flex-wrap items-center gap-4 font-mono text-xs">
+    <a href={home} class="flex items-center gap-2 text-accent">
+      <Icon name="back" size={16} />
+      {t.backToPortfolio}
+    </a>
+    <a
+      href={
+        locale === 'es'
+          ? `${import.meta.env.BASE_URL}en/cv/`
+          : `${import.meta.env.BASE_URL}cv/`
+      }
+      class="text-muted"
+      hreflang={locale === 'es' ? 'en' : 'es'}
+    >
+      {locale === 'es' ? 'English' : 'Español'}
+    </a>
+    <button
+      type="button"
+      data-print
+      class="ml-auto flex items-center gap-2 border-[length:var(--border)] border-accent bg-accent px-3 py-2 font-semibold tracking-wider text-accent-ink uppercase"
+    >
+      <Icon name="copy" size={16} />
+      {t.print}
+    </button>
+  </nav>
+
+  <main class="resume retro-window mx-auto max-w-4xl bg-panel text-sm">
+    <header class="flex flex-wrap items-end justify-between gap-4 border-b-[length:var(--border)] border-accent p-6">
+      <div>
+        <h1 class="font-display text-4xl leading-none">{profile.name}</h1>
+        <p class="mt-2 font-mono text-xs tracking-wider text-accent uppercase">
+          {t.junior} · {t.focusValue}
+        </p>
+      </div>
+      <ul class="space-y-1 text-right font-mono text-xs text-muted">
+        {site.email && (
+          <li>
+            <a href={`mailto:${site.email}`}>{site.email}</a>
+          </li>
+        )}
+        <li>
+          <a href={profile.github}>{profile.github.replace('https://', '')}</a>
+        </li>
+      </ul>
+    </header>
+
+    <div class="grid gap-6 p-6 md:grid-cols-[1fr_14rem]">
+      <div class="space-y-6">
+        <section>
+          <h2 class="kicker mb-2">{t.resume.profile}</h2>
+          <p class="leading-relaxed">{profile.description[locale]}</p>
+        </section>
+
+        {show.projects && (
+          <section>
+            <h2 class="kicker mb-2">{t.resume.projects}</h2>
+            <ul class="space-y-3">
+              {projects.map((project) => (
+                <li>
+                  <p class="flex flex-wrap items-baseline justify-between gap-x-3">
+                    <strong class="font-display text-base font-normal">
+                      {project.url ? (
+                        <a href={project.url}>{project.name}</a>
+                      ) : (
+                        project.name
+                      )}
+                    </strong>
+                    <span class="font-mono text-[11px] text-muted">
+                      {project.content[locale].context}
+                    </span>
+                  </p>
+                  <p class="leading-snug">
+                    {project.content[locale].description}
+                  </p>
+                  <p class="mt-0.5 leading-snug text-muted">
+                    {project.content[locale].role}
+                  </p>
+                  <p class="mt-0.5 font-mono text-[11px] text-accent">
+                    {project.technologies.join(' · ')}
+                  </p>
+                </li>
+              ))}
+            </ul>
+            <p class="mt-3 text-muted">
+              <span class="text-ink">{t.resume.more}:</span>{' '}
+              {moreProjects
+                .map(
+                  (item) =>
+                    `${item.name} (${item.description[locale]}, ${item.tech})`
+                )
+                .join('; ')}
+            </p>
+          </section>
+        )}
+
+        {show.timeline && (
+          <section>
+            <h2 class="kicker mb-2">{t.resume.journey}</h2>
+            <ol class="space-y-1">
+              {timeline.map((step) => (
+                <li class="grid grid-cols-[5rem_1fr] gap-3">
+                  <span class="font-mono text-[11px] text-accent uppercase">
+                    {step.date[locale]}
+                  </span>
+                  <span>
+                    {step.title[locale]}
+                    <span class="text-muted"> — {step.detail[locale]}</span>
+                  </span>
+                </li>
+              ))}
+            </ol>
+          </section>
+        )}
+      </div>
+
+      <aside class="space-y-6">
+        <section>
+          <h2 class="kicker mb-2">{t.resume.details}</h2>
+          <dl class="space-y-1.5">
+            {details.map(([label, value]) => (
+              <div>
+                <dt class="font-mono text-[11px] text-muted uppercase">
+                  {label}
+                </dt>
+                <dd>{value}</dd>
+              </div>
+            ))}
+          </dl>
+        </section>
+
+        {show.skills && (
+          <section>
+            <h2 class="kicker mb-2">{t.resume.skills}</h2>
+            <dl class="space-y-2">
+              {stack.map((level) => (
+                <div>
+                  <dt class="font-mono text-[11px] text-muted uppercase">
+                    {level.label[locale]}
+                  </dt>
+                  <dd>
+                    {level.tools
+                      .map((tool) => toolLabel(tool, locale))
+                      .join(', ')}
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          </section>
+        )}
+
+        {show.certificates && certificates.length > 0 && (
+          <section>
+            <h2 class="kicker mb-2">{t.resume.certificates}</h2>
+            <ul class="space-y-1.5">
+              {certificates.map((certificate) => (
+                <li>
+                  {certificate.url ? (
+                    <a href={certificate.url}>{certificate.name[locale]}</a>
+                  ) : (
+                    certificate.name[locale]
+                  )}
+                  <span class="block font-mono text-[11px] text-muted">
+                    {certificate.issuer} · {certificate.year}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+      </aside>
+    </div>
+  </main>
+
+  <script>
+    document
+      .querySelector('[data-print]')
+      ?.addEventListener('click', () => window.print());
+  </script>
+</PlainLayout>
+
+<style>
+  .resume a {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  @media print {
+    @page {
+      size: A4;
+      margin: 10mm;
+    }
+    html:root[data-theme] {
+      --ground: #fff;
+      --panel: #fff;
+      --deep: #fff;
+      --ink: #111;
+      --muted: #444;
+      --line: #bbb;
+      --accent: var(--c-crimson);
+    }
+    body {
+      padding: 0;
+    }
+    .resume-actions {
+      display: none;
+    }
+    .resume {
+      max-width: none;
+      box-shadow: none;
+      font-size: 11px;
+    }
+  }
+</style>

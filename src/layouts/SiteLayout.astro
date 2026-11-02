@@ -1,0 +1,98 @@
+---
+import Stage from '../components/art/Stage.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import IntroScreen from '../components/IntroScreen.astro';
+import Avatar from '../components/art/Avatar.astro';
+import SceneDots from '../components/SceneDots.astro';
+import { profile, defaultProjectId, type Locale } from '../data/portfolio';
+import { ui } from '../data/ui';
+import { site } from '../site.config';
+import { themeCss } from '../lib/theme';
+import '../styles/global.css';
+import '../styles/stage.css';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const t = ui(locale);
+---
+
+<!doctype html>
+<html lang={locale} data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={profile.description[locale]} />
+    <meta name="theme-color" content={site.surfaces.dark.ground} />
+    <style is:global set:html={themeCss}></style>
+    <meta property="og:title" content={`${profile.name} — ${t.welcome}`} />
+    <meta property="og:description" content={profile.description[locale]} />
+    <meta property="og:type" content="website" />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href={`${import.meta.env.BASE_URL}favicon.svg`}
+    />
+    <link
+      rel="alternate"
+      hreflang={locale === 'es' ? 'en' : 'es'}
+      href={
+        locale === 'es'
+          ? `${import.meta.env.BASE_URL}en/`
+          : `${import.meta.env.BASE_URL}`
+      }
+    />
+    <link
+      rel="preload"
+      href={`${import.meta.env.BASE_URL}fonts/display.otf`}
+      as="font"
+      type="font/otf"
+      crossorigin
+    />
+    <title>{profile.name} — {t.welcome}</title>
+    <script is:inline>
+      try {
+        const theme = localStorage.getItem('raccon-theme');
+        if (theme === 'light' || theme === 'dark')
+          document.documentElement.dataset.theme = theme;
+      } catch {}
+    </script>
+  </head>
+  <body
+    data-locale={locale}
+    data-focus={defaultProjectId}
+    class="flex min-h-svh flex-col font-sans text-base leading-relaxed text-ink"
+  >
+    <a
+      href="#main"
+      class="fixed -top-20 left-5 z-[100] rounded-lg bg-accent px-5 py-3 text-accent-ink focus:top-3"
+    >
+      {t.skip}
+    </a>
+    <Stage />
+    <SiteHeader locale={locale} />
+    <main
+      id="main"
+      tabindex="-1"
+      class="relative mx-auto min-h-0 w-[92%] max-w-[1320px] flex-1 outline-none lg:w-[87%]"
+    >
+      <slot />
+    </main>
+    <SiteFooter locale={locale} />
+    <SceneDots locale={locale} />
+    <Avatar
+      class="companion"
+      poses={['coding', 'glasses', 'skateboard', 'surprise']}
+      label={t.pose}
+    />
+    <slot name="dialogs" />
+    <IntroScreen locale={locale} />
+    <div class="toast" role="status" aria-live="polite" data-toast></div>
+    <script>
+      import { initPortfolio } from '../scripts/portfolio';
+      initPortfolio();
+    </script>
+  </body>
+</html>

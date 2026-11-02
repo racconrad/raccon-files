@@ -1,0 +1,204 @@
+@import 'tailwindcss';
+
+@font-face {
+  font-family: Stage;
+  src: url('/fonts/display.otf') format('opentype');
+  font-weight: 700;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: Body;
+  src: url('/fonts/body.ttf') format('truetype');
+  font-weight: 400;
+  font-display: swap;
+}
+
+/* Colors, borders, and grid are configured in src/site.config.ts (injected via SiteLayout). */
+:root {
+  color-scheme: dark;
+}
+:root[data-theme='light'] {
+  color-scheme: light;
+}
+
+@theme inline {
+  --font-sans: Body, Arial, sans-serif;
+  --font-display: Stage, Georgia, serif;
+  --font-mono: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+  --color-canvas: var(--ground);
+  --color-panel: var(--panel);
+  --color-panel-deep: var(--deep);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+}
+
+/* Global corner radius controlled by `radius` configuration. */
+*,
+::before,
+::after,
+::backdrop {
+  border-radius: var(--radius) !important;
+}
+
+html {
+  min-width: 320px;
+  background: var(--ground);
+  scrollbar-color: var(--accent) var(--deep);
+}
+
+body {
+  isolation: isolate;
+  caret-color: var(--accent);
+  background: var(--ground);
+}
+body.is-enhanced {
+  height: 100svh;
+  overflow: hidden;
+}
+button,
+a {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+button,
+summary {
+  cursor: pointer;
+}
+button:disabled {
+  opacity: 0.45;
+  cursor: wait;
+}
+svg {
+  flex-shrink: 0;
+}
+[hidden] {
+  display: none !important;
+}
+::selection {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+:focus-visible {
+  outline: var(--border) solid var(--accent);
+  outline-offset: 3px;
+}
+/* #main is programmatically focused (skip content, intro end): suppress ring. */
+#main:focus-visible {
+  outline: none;
+}
+a {
+  text-underline-offset: 5px;
+}
+summary::-webkit-details-marker {
+  display: none;
+}
+
+.site-header {
+  min-height: 122px;
+  border-bottom: var(--border) solid;
+  border-image: linear-gradient(
+      90deg,
+      var(--accent) 0 70%,
+      var(--accent-2) 0 90%,
+      var(--accent-3) 0
+    )
+    1;
+}
+.scene {
+  min-height: 650px;
+}
+.is-enhanced .scene {
+  height: 100%;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: clip;
+  scrollbar-width: thin;
+}
+.primary-navigation [aria-current='page'] {
+  color: var(--accent);
+}
+.primary-navigation [aria-current='page']::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 8px;
+  height: var(--border);
+  background: linear-gradient(
+    90deg,
+    var(--accent) 0 60%,
+    var(--accent-2) 0 85%,
+    var(--accent-3) 0
+  );
+  transform-origin: left;
+  animation: underline-in 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+@keyframes underline-in {
+  from {
+    transform: scaleX(0);
+  }
+}
+.primary-navigation a:hover {
+  color: var(--accent-2);
+}
+.broadcast-selector .project-tab[aria-pressed='true'] {
+  color: var(--accent-ink);
+  background: var(--accent);
+  border-color: var(--accent);
+}
+.desktop-dialog::backdrop {
+  background: #08060ab8;
+}
+
+/* Reusable mono kicker tag: "// section" */
+.kicker {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.kicker::before {
+  content: '// ';
+  color: var(--accent-2);
+}
+
+@media (min-width: 768px) {
+  .primary-navigation a {
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0;
+  }
+  .site-header {
+    min-height: 83px;
+  }
+  .primary-navigation [aria-current='page']::after {
+    bottom: 16px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .primary-navigation a {
+    letter-spacing: 0.04em;
+  }
+}
+@media (min-width: 1280px) {
+  .primary-navigation a {
+    letter-spacing: 0.08em;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+  .intro {
+    display: none !important;
+  }
+}

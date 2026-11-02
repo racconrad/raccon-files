@@ -1,0 +1,83 @@
+.retro-window {
+  background: var(--panel);
+  border: var(--border) solid var(--accent);
+  box-shadow:
+    6px 6px 0 color-mix(in srgb, var(--accent-2) 75%, transparent),
+    12px 12px 0 color-mix(in srgb, var(--accent-3) 22%, transparent);
+}
+.window-bar {
+  background: var(--accent);
+  color: var(--accent-ink);
+  border-bottom: var(--border) solid var(--accent);
+}
+.window-dots {
+  display: flex;
+  gap: 5px;
+}
+.window-dots i {
+  width: 9px;
+  height: 9px;
+  border: 1.5px solid currentColor;
+}
+.window-dots i:nth-child(1) {
+  background: var(--accent-2);
+  border-color: var(--accent-2);
+}
+.window-dots i:nth-child(2) {
+  background: var(--accent-3);
+  border-color: var(--accent-3);
+}
+.window-dots i:nth-child(3) {
+  background: currentColor;
+  animation: blink-dot 1.6s steps(1) infinite;
+}
+@keyframes blink-dot {
+  50% {
+    background: transparent;
+  }
+}
+.window-close {
+  border: 1.5px solid currentColor;
+}
+.window-close:hover {
+  background: var(--accent-ink);
+  color: var(--accent);
+}
+
+.primary-action {
+  transition:
+    transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1),
+    box-shadow 0.2s,
+    background 0.2s,
+    color 0.2s;
+}
+.primary-action:hover {
+  transform: translate(-4px, -4px);
+  box-shadow:
+    4px 4px 0 var(--accent-2),
+    8px 8px 0 var(--accent-3);
+}
+.primary-action:active {
+  transform: none;
+  box-shadow: none;
+}
+.scene-heading h2 {
+  position: relative;
+  padding-left: 18px;
+  border-left: calc(var(--border) * 3) solid var(--accent);
+}
+.role-note {
+  padding: 10px 12px;
+  border-left: var(--border) solid var(--accent);
+  background: var(--deep);
+  color: var(--muted);
+}
+.role-note strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.brand-mark {
+  border: var(--border) solid var(--accent);
+  color: var(--accent);
+}

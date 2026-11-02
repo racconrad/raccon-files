@@ -1,0 +1,84 @@
+---
+import Icon from '../Icon.astro';
+import Scene from '../ui/Scene.astro';
+import type { Locale } from '../../data/portfolio';
+import { ui } from '../../data/ui';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const t = ui(locale);
+const interests = [
+  { icon: 'music', title: t.musicTitle, copy: t.musicCopy, pose: 'music' },
+  {
+    icon: 'compass',
+    title: t.gamesTitle,
+    copy: t.gamesCopy,
+    pose: 'skateboard',
+  },
+  {
+    icon: 'cat',
+    title: t.animalsTitle,
+    copy: t.animalsCopy,
+    pose: 'hiding',
+  },
+  { icon: 'book', title: t.booksTitle, copy: t.booksCopy, pose: 'studying' },
+];
+const facts = [
+  [t.factStudies, t.studiesValue],
+  [t.factLocation, t.locationValue],
+  [t.factEnglish, t.englishValue],
+  [t.factSeeking, t.seekingValue],
+];
+---
+
+<Scene id="about">
+  <div class="grid items-start gap-8 px-2 lg:grid-cols-[1.1fr_1fr] lg:gap-20 lg:p-7">
+    <div>
+      <h2
+        id="about-title"
+        class="mb-7 font-display text-[clamp(2.75rem,5vw,4.75rem)] leading-[1.05] tracking-tight"
+      >
+        {t.aboutTitle}
+      </h2>
+      <p class="max-w-[55ch] text-sm leading-loose text-muted md:text-base">
+        {t.aboutCopy}
+      </p>
+      <p class="mt-5 max-w-[55ch] text-sm leading-loose text-muted md:text-base">
+        {t.aboutCopy2}
+      </p>
+      <dl class="fact-list max-w-[55ch]" data-stagger>
+        {facts.map(([label, value]) => (
+          <div>
+            <dt>{label}</dt>
+            <dd>{value}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+
+    <div class="lg:pt-4" data-stagger>
+      <h3 class="kicker mb-4">{t.interestsTitle}</h3>
+      {interests.map((interest) => (
+        <details class="group interest">
+          <summary
+            data-pose={interest.pose}
+            class="flex cursor-pointer list-none items-center gap-3 py-5 text-sm md:text-base"
+          >
+            <Icon name={interest.icon} class="text-accent" />
+            <span>{interest.title}</span>
+            <Icon
+              name="chevron"
+              size={15}
+              class="ml-auto text-muted transition group-open:rotate-90"
+            />
+          </summary>
+          <p class="pb-6 pl-8 text-sm leading-relaxed text-muted">
+            {interest.copy}
+          </p>
+        </details>
+      ))}
+    </div>
+  </div>
+</Scene>

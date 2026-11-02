@@ -1,0 +1,29 @@
+---
+import { stack, type Locale } from '../../data/portfolio';
+
+interface Props {
+  locale: Locale;
+  limit?: number;
+}
+const { locale, limit } = Astro.props;
+---
+
+<dl class="stack-levels" data-stagger>
+  {stack.map((tier) => (
+    <div>
+      <dt>
+        <span>{tier.label[locale]}</span>
+        <span class="level-meter" aria-hidden="true">
+          {[1, 2, 3].map((step) => (
+            <i class:list={{ on: step <= tier.level }}></i>
+          ))}
+        </span>
+      </dt>
+      <dd>
+        {tier.tools.slice(0, limit).map((tool) => (
+          <span>{tool}</span>
+        ))}
+      </dd>
+    </div>
+  ))}
+</dl>

@@ -1,0 +1,47 @@
+---
+import { profile, type Locale } from '../data/portfolio';
+import { themeCss } from '../lib/theme';
+import '../styles/global.css';
+
+interface Props {
+  locale: Locale;
+  title: string;
+  alternate?: string;
+  class?: string;
+}
+const { locale, title, alternate, class: className } = Astro.props;
+---
+
+<!doctype html>
+<html lang={locale} data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={profile.description[locale]} />
+    <meta name="robots" content="noindex" />
+    <style is:global set:html={themeCss}></style>
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href={`${import.meta.env.BASE_URL}favicon.svg`}
+    />
+    {alternate && (
+      <link
+        rel="alternate"
+        hreflang={locale === 'es' ? 'en' : 'es'}
+        href={alternate}
+      />
+    )}
+    <title>{title}</title>
+    <script is:inline>
+      try {
+        const theme = localStorage.getItem('raccon-theme');
+        if (theme === 'light' || theme === 'dark')
+          document.documentElement.dataset.theme = theme;
+      } catch {}
+    </script>
+  </head>
+  <body class:list={['font-sans text-ink', className]}>
+    <slot />
+  </body>
+</html>

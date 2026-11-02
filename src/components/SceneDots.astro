@@ -1,0 +1,22 @@
+---
+import Icon from './Icon.astro';
+import { scenes } from '../data/navigation';
+import type { Locale } from '../data/portfolio';
+import { ui } from '../data/ui';
+
+interface Props {
+  locale: Locale;
+}
+const t = ui(Astro.props.locale);
+---
+
+<nav class="scene-dots" aria-label={t.sceneDots}>
+  {scenes.map((scene) => (
+    <a href={`#${scene}`} data-scene-dot={scene} title={t.nav[scene]}>
+      <span class="sr-only">{t.nav[scene]}</span>
+    </a>
+  ))}
+  <button type="button" data-scene-next aria-label={t.nextScene}>
+    <Icon name="chevron" size={16} />
+  </button>
+</nav>

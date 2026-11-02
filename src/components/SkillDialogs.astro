@@ -1,0 +1,14 @@
+---
+import SkillDialog from './dialogs/SkillDialog.astro';
+import { skills, type Locale } from '../data/portfolio';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+---
+
+{skills.map((skill) => (
+  <SkillDialog skill={skill} locale={locale} />
+))}

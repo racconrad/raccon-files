@@ -1,0 +1,84 @@
+@media (min-width: 768px) {
+  .puzzle-piece:nth-child(2n) .puzzle-connector {
+    display: block;
+  }
+  .puzzle-piece:nth-child(3n) .puzzle-connector {
+    display: none;
+  }
+}
+@media (max-width: 1000px) and (min-width: 768px) {
+  .character-stage {
+    gap: 16px;
+    grid-template-columns: 1fr 0.7fr 1fr;
+  }
+  .panel-body {
+    padding: 16px;
+  }
+  .fact-list div {
+    grid-template-columns: 1fr;
+    gap: 2px;
+  }
+}
+@media (max-width: 767px) {
+  .project-preview {
+    min-height: 0;
+  }
+  .flow {
+    max-width: none;
+  }
+  .preview-mascot {
+    display: none;
+  }
+  .theater-home {
+    justify-content: flex-start;
+    gap: 22px;
+  }
+  .theater-heading h1 {
+    font-size: clamp(2.4rem, 11vw, 4rem);
+  }
+  .theater-heading p {
+    font-size: 12px;
+  }
+  .character-stage {
+    grid-template-columns: 1fr;
+    gap: 48px;
+    padding: 0 6px;
+  }
+  .center-character {
+    max-width: 170px;
+  }
+  .hanging-panel::before,
+  .hanging-panel::after {
+    height: 40px;
+    top: -42px;
+  }
+  .panel-body {
+    padding: 16px 14px;
+  }
+  .fact-list div {
+    grid-template-columns: 84px 1fr;
+  }
+  .stage-lamp {
+    display: none;
+  }
+  .center-character {
+    order: -1;
+  }
+  footer {
+    gap: 12px !important;
+  }
+  [data-motion-toggle] {
+    margin-right: auto;
+  }
+}
+@media (max-height: 800px) and (min-width: 768px) {
+  .theater-home {
+    gap: 18px;
+  }
+  .theater-heading h1 {
+    font-size: clamp(3rem, 5.5vw, 5rem);
+  }
+  .center-character {
+    max-width: 220px;
+  }
+}

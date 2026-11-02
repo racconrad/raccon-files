@@ -1,0 +1,93 @@
+---
+import Icon from '../Icon.astro';
+import Scene from '../ui/Scene.astro';
+import SceneHeading from '../ui/SceneHeading.astro';
+import WindowHeader from '../ui/WindowHeader.astro';
+import Action from '../ui/Action.astro';
+import {
+  show,
+  timeline,
+  certificates,
+  type Locale,
+} from '../../data/portfolio';
+import { ui } from '../../data/ui';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const t = ui(locale);
+const resumeHref =
+  locale === 'es'
+    ? `${import.meta.env.BASE_URL}cv/`
+    : `${import.meta.env.BASE_URL}en/cv/`;
+---
+
+<Scene id="journey">
+  <SceneHeading
+    id="journey-title"
+    title={t.journeyTitle}
+    description={t.journeyLead}
+  />
+
+  <div
+    class:list={[
+      'grid items-start gap-8 px-2',
+      show.timeline && show.certificates && 'lg:grid-cols-[1.4fr_1fr]',
+    ]}
+  >
+    {show.timeline && (
+      <article class="retro-window">
+        <WindowHeader title={t.timelineTitle} icon="terminal" />
+        <ol class="timeline p-5 font-mono text-xs md:text-sm" data-stagger>
+          {timeline.map((step) => (
+            <li>
+              <time>{step.date[locale]}</time>
+              <p>
+                <strong>{step.title[locale]}</strong>
+                <span>{step.detail[locale]}</span>
+              </p>
+            </li>
+          ))}
+        </ol>
+      </article>
+    )}
+
+    <div class="grid gap-6">
+      {show.certificates && (
+        <article class="retro-window">
+          <WindowHeader title={t.certificatesTitle} icon="academy" />
+          <ul class="grid gap-2 p-4" data-stagger>
+            {certificates.map((certificate) => (
+              <li class="certificate flex items-center gap-3 p-3 text-sm">
+                <Icon name="check" size={18} class="shrink-0 text-accent" />
+                <div class="min-w-0 flex-1">
+                  <p class="text-ink">{certificate.name[locale]}</p>
+                  <p class="font-mono text-xs text-muted">
+                    {certificate.issuer} · {certificate.year}
+                  </p>
+                </div>
+                {certificate.url && (
+                  <a
+                    href={certificate.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="text-accent"
+                    aria-label={`${t.credential}: ${certificate.name[locale]}`}
+                  >
+                    <Icon name="external" size={17} />
+                  </a>
+                )}
+              </li>
+            ))}
+          </ul>
+        </article>
+      )}
+      {show.resume && (
+        <Action href={resumeHref} icon="book" pose="studying" class="w-fit">
+          {t.resumeLink}
+        </Action>
+      )}
+    </div>
+  </div>
+</Scene>

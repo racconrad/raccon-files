@@ -1,0 +1,29 @@
+---
+import Icon from './Icon.astro';
+import type { Locale } from '../data/portfolio';
+import { ui } from '../data/ui';
+
+interface Props {
+  locale: Locale;
+}
+const t = ui(Astro.props.locale);
+---
+
+<footer class="relative z-10 mx-auto flex h-11 w-[92%] shrink-0 items-center gap-5 text-xs text-muted md:w-[94%]">
+  <button
+    type="button"
+    data-motion-toggle
+    aria-pressed="false"
+    class="ml-auto text-muted hover:text-accent"
+  >
+    {Astro.props.locale === 'es' ? 'Pausar ambiente' : 'Pause ambience'}
+  </button>
+  <button
+    type="button"
+    data-replay
+    class="ml-auto flex items-center gap-2 text-accent md:ml-0"
+  >
+    <Icon name="replay" size={15} />
+    {t.replay}
+  </button>
+</footer>

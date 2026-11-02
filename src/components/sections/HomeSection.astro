@@ -1,0 +1,38 @@
+---
+import Scene from '../ui/Scene.astro';
+import Avatar from '../art/Avatar.astro';
+import IdentityPanel from '../home/IdentityPanel.astro';
+import StackPanel from '../home/StackPanel.astro';
+import HomeInvitation from '../home/HomeInvitation.astro';
+import { profile, type Locale } from '../../data/portfolio';
+import { ui } from '../../data/ui';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = ui(locale);
+---
+
+<Scene id="home" class="home-scene theater-home">
+  <div class="theater-heading">
+    <span class="kicker">{t.welcome}</span>
+    <h1 id="home-title" class="font-display tracking-[-0.04em]">
+      {profile.name}
+    </h1>
+    <p class="text-muted">{t.homeLine}</p>
+  </div>
+  <div class="character-stage">
+    <IdentityPanel locale={locale} />
+    <div class="center-character">
+      <Avatar
+        poses={['wave', 'coffee', 'glasses', 'skateboard', 'surprise']}
+        label={t.pose}
+      />
+      <span class="character-plinth" aria-hidden="true"></span>
+    </div>
+    <StackPanel locale={locale} />
+  </div>
+  <HomeInvitation locale={locale} />
+</Scene>

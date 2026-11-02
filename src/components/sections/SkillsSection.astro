@@ -1,0 +1,73 @@
+---
+import Icon from '../Icon.astro';
+import Scene from '../ui/Scene.astro';
+import SceneHeading from '../ui/SceneHeading.astro';
+import StackLevels from '../ui/StackLevels.astro';
+import { skills, type Locale } from '../../data/portfolio';
+import { ui, toolLabel } from '../../data/ui';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const t = ui(locale);
+const skillPose: Record<string, string> = {
+  interfaces: 'coding',
+  backend: 'glasses',
+  data: 'studying',
+  mobile: 'phone',
+  direction: 'wave',
+  learning: 'overwhelmed',
+};
+---
+
+<Scene id="skills">
+  <SceneHeading
+    id="skills-title"
+    title={t.skillsTitle}
+    description={t.skillsLead}
+  />
+
+  <div class="mt-8 grid items-center gap-8 lg:grid-cols-[1.7fr_1fr] lg:gap-16">
+    <div
+      data-stagger
+      class="puzzle-board grid grid-cols-2 gap-3 px-2 md:grid-cols-3"
+      aria-label={t.skillsHint}
+    >
+      {skills.map((skill) => (
+        <button
+          type="button"
+          data-open={`skill-${skill.id}`}
+          data-pose={skillPose[skill.id]}
+          class="puzzle-piece relative flex min-h-32 flex-col items-start justify-center gap-3 p-5 text-left"
+        >
+          <span class="puzzle-connector" aria-hidden="true"></span>
+          <Icon name={skill.icon} size={30} class="text-accent" />
+          <span class="text-sm leading-tight text-ink md:text-base">
+            {skill.title[locale]}
+          </span>
+          <small class="font-mono text-xs text-muted">
+            {skill.tools
+              .slice(0, 2)
+              .map((tool) => toolLabel(tool, locale))
+              .join(' / ')}
+          </small>
+          <span
+            class="absolute top-3 right-3 text-accent/60"
+            aria-hidden="true"
+          >
+            <Icon name="expand" size={14} />
+          </span>
+        </button>
+      ))}
+    </div>
+    <aside class="px-2 text-sm text-muted">
+      <h3 class="kicker mb-4">{t.levelsTitle}</h3>
+      <StackLevels locale={locale} />
+      <div class="ai-note mt-5 p-4 text-sm">
+        <h3 class="mb-2 font-medium text-ink">{t.aiTitle}</h3>
+        <p>{t.aiCopy}</p>
+      </div>
+    </aside>
+  </div>
+</Scene>

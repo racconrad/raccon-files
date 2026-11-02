@@ -1,0 +1,41 @@
+---
+import StageLamp from './StageLamp.astro';
+---
+
+<div class="stage-backdrop" aria-hidden="true">
+  <div class="stage-grid"></div>
+  <svg
+    class="stage-art"
+    viewBox="0 0 1440 1000"
+    preserveAspectRatio="none"
+    fill="none"
+  >
+    <g class="spotlight-beams">
+      <path d="m200 40 520 820H220z" />
+      <path d="m1240 40-520 820h500z" />
+    </g>
+    <path class="stage-floor" d="M0 900H1440M0 940H1440M0 975H1440" />
+    <rect class="stage-star star-one" x="1270" y="250" width="22" height="22" />
+    <rect class="stage-star star-two" x="110" y="700" width="14" height="14" />
+    <rect class="stage-star star-three" x="1300" y="690" width="8" height="8" />
+    <rect class="stage-star star-four" x="150" y="260" width="10" height="10" />
+    <path class="stage-star star-five" d="M1180 120v24M1168 132h24" />
+    <path class="stage-star star-six" d="M260 520v18M251 529h18" />
+    <rect
+      class="stage-star star-seven"
+      x="1160"
+      y="820"
+      width="16"
+      height="16"
+    />
+    <rect class="stage-star star-eight" x="330" y="860" width="6" height="6" />
+  </svg>
+  <StageLamp />
+  <StageLamp right />
+</div>
+<div class="stage-blackout" aria-hidden="true"></div>
+<div class="stage-wipe" aria-hidden="true">
+  <i></i>
+  <i></i>
+  <i></i>
+</div>

@@ -1,0 +1,8 @@
+---
+import Resume from '../components/Resume.astro';
+import { show } from '../data/portfolio';
+
+if (!show.resume) return Astro.redirect(`${import.meta.env.BASE_URL}`);
+---
+
+<Resume locale="es" />

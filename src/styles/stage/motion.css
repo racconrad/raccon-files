@@ -1,0 +1,37 @@
+[data-motion-toggle] {
+  white-space: nowrap;
+}
+[data-motion='paused'] *,
+[data-motion-sleep] *,
+[data-resting='true'] *,
+[hidden] * {
+  animation-play-state: paused !important;
+}
+:is(
+    [data-motion='paused'],
+    [data-motion-sleep],
+    [data-resting='true'],
+    [hidden]
+  )
+  *::before,
+:is(
+    [data-motion='paused'],
+    [data-motion-sleep],
+    [data-resting='true'],
+    [hidden]
+  )
+  *::after {
+  animation-play-state: paused !important;
+}
+[data-motion='paused'] .panel-reveal {
+  animation: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .stage-backdrop *,
+  .stage-backdrop::after,
+  .flow li,
+  .preview-mascot,
+  .stage-ready .panel-reveal {
+    animation: none !important;
+  }
+}

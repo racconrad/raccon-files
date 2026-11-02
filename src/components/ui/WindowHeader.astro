@@ -1,0 +1,27 @@
+---
+import Icon from '../Icon.astro';
+
+interface Props {
+  title: string;
+  icon: string;
+  id?: string;
+}
+
+const { title, icon, id } = Astro.props;
+---
+
+<div class="window-bar flex min-h-9 items-center justify-between gap-3 px-3 py-1.5 font-mono text-xs">
+  <span id={id} class="flex items-center gap-2">
+    <Icon name={icon} size={16} />
+    {title}
+  </span>
+  <div class="flex items-center gap-2">
+    <slot>
+      <span class="window-dots" aria-hidden="true">
+        <i></i>
+        <i></i>
+        <i></i>
+      </span>
+    </slot>
+  </div>
+</div>

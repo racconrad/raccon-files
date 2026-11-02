@@ -1,0 +1,34 @@
+---
+import Icon from './Icon.astro';
+import type { Locale, Project } from '../data/portfolio';
+import { ui } from '../data/ui';
+
+interface Props {
+  project: Project;
+  locale: Locale;
+}
+
+const { project, locale } = Astro.props;
+const t = ui(locale);
+const flow = project.content[locale].flow;
+---
+
+<!-- Diagrama de cómo funciona: un pulso recorre los pasos en orden. -->
+<div
+  class:list={['project-preview', `preview-${project.id}`]}
+  aria-label={t.howItWorks}
+  role="group"
+>
+  <div class="preview-mascot" aria-hidden="true">
+    <Icon name={project.icon} size={64} />
+  </div>
+  <p class="kicker">{t.howItWorks}</p>
+  <ol class="flow" style={`--steps:${flow.length}`}>
+    {flow.map((step, index) => (
+      <li style={`--i:${index}`}>
+        <span aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+        {step}
+      </li>
+    ))}
+  </ol>
+</div>
